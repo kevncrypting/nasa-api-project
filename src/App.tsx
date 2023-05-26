@@ -2,33 +2,42 @@ import { useEffect, useState } from "react";
 import Card from "./components/Card";
 
 function App() {
-  let handleClick = () => {
-    console.log(`Picture was clicked!`);
-  };
-
-  const [imageObject, setImageObject] = useState<any[]>([]);
+  const [images, setImages] = useState<any[]>([]);
 
   useEffect(() => {
     fetch(
-      `https://api.unsplash.com/search/photos?client_id=WvDugZQIVEQspCU2bZxy4aVoOpfksRsaUfTlC7d9kt4&query=space&order_by=popular&page=1&per_page=10`
+      "https://api.nasa.gov/planetary/apod?api_key=3cRXJRsYkBMUMQQybBc18in0QHFKi9GEk1wzSuEJ&count=5"
     )
       .then((response) => response.json())
       .then((data) => {
-        setImageObject(data.results);
-        console.log(imageObject);
+        setImages(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
       });
   }, []);
 
+  let handleCardLike = () => {
+    console.log('User liked ')
+  }
+
   return (
     <>
-      <h1 className="text-4xl font-bold underline">Hello world!</h1>
-        {imageObject.forEach((image) => {
-          <Card
-            imageUrl={image.urls.small}
-            title={image.description}
-            onPictureClick={() => handleClick()}
-          />;
+      <div>
+        {images.map((image, index) => {
+          return (
+            <Card
+              imageUrl={image.url}
+              imageAltDescription={image.title}
+              title={image.title}
+              date={image.date}
+              explanation={image.explanation}
+              key={index}
+              onCardLike={() => handleCardLike()}
+            ></Card>
+          );
         })}
+      </div>
     </>
   );
 }
