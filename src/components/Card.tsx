@@ -1,21 +1,25 @@
 interface CardProps {
   imageUrl: string;
+  imageAltDescription: string;
   title: string;
-  onPictureClick: () => void;
+  date: string;
+  explanation: string;
+  onCardLike: () => void;
 }
 
-const Card = ({ imageUrl, title, onPictureClick }: CardProps) => {
+const Card = ({ imageUrl, imageAltDescription, title, date, explanation, onCardLike }: CardProps) => {
   return (
-    <div className="flex flex-col bg-red-500 rounded-3xl w-64">
+    <div className="flex flex-col bg-blue-200 items-center md:w-5/6">
       <img
         src={imageUrl}
-        alt="This is a picture"
-        onClick={onPictureClick}
-        className="object-contain h-64 w-64"
+        alt={imageAltDescription}
+        className="object-fill"
       />
-      <section>
-        <h3>{title}</h3>
-        <p>this is a card</p>
+      <section className="flex flex-col items-center gap-2">
+        <h3 className="font-bold text-2xl">{title}</h3>
+        <span className="italic">Captured on {date}</span>
+        <p>{explanation}</p>
+        <button onClick={onCardLike}></button>
       </section>
     </div>
   );
